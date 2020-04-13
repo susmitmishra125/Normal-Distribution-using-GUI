@@ -1,10 +1,10 @@
 from tkinter import *
 import tkinter
 from tkinter import messagebox
-
+import math
 
 ###########################################################
-import math
+#function for Integration using Simpsons 1/3rd rule. Steps=0.01
 def fun(x):
     return math.exp(-x*x/2)*(1/math.sqrt(8*math.atan(1.0)))
 def simpson(z):
@@ -24,7 +24,7 @@ def simpson(z):
         if(m%2==1):
             m=m-1
         x=0
-        s=0
+        s=0#ans=s=(h/3)*(a0+2(a2+a4...)+4(a1+a3...)+az)
         for i in range(int(m)):
             if(i==0):
                 s+=fun(0)
@@ -43,9 +43,7 @@ def simpson(z):
 
 Solver = Tk()
 Solver.title("Normal distribution")
-#Solver.resizable(0, 2)#remove or change this in order to get different screen sizes
-Solver.geometry('560x170')
-#tkinter.Label(Solver, text="First Name",justify=LEFT).grid(row=1,column=6)
+Solver.geometry('700x170')
 Solver.configure(background='#e7fca7')
 
 class Application(Frame):
@@ -106,6 +104,8 @@ class Application(Frame):
 		try:
 			self.result = eval(self.expression)
 			self.result=round(self.result,2)
+			t=(float(self.result)-float(self.mean.get()))/float(self.variance.get())
+
 			self.replaceTextinput4(self.input3.get())
 			self.replaceTextinput3(self.input2.get())
 			self.replaceTextinput2(self.input1.get())
@@ -116,7 +116,7 @@ class Application(Frame):
 			self.replaceTextoutput2(self.output1.get())
 
 			
-			self.result = round(simpson(float(self.result)),4)
+			self.result = round(simpson(t),4)
 			self.replaceTextoutput1(self.result)
 			self.replaceText('')
 			if(float(self.input1.get())<-3 or float(self.input1.get())>3):
@@ -143,55 +143,66 @@ class Application(Frame):
 		self.input.grid(row=1, column=1, columnspan=2,sticky="NWNESWSE")
 		
 		Label(self,text='Input(Z):',width=6,font=('Adobe Heiti Std',14),bg='#f7dce3').grid(row=1,column=0)
-		Label(self,text='-3.00 ≤ z ≤ 3.00',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=4,columnspan=2)
-		Label(self,text='Φ(z)',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=6,columnspan=2)
-
+		Label(self,text='-3.00 ≤ z ≤ 3.00',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=5,columnspan=2)
+		Label(self,text='Φ(z)',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=7,columnspan=2)
+		
+		Label(self,text='Mean μ:',width=6,font=('Calibri',14)).grid(row=2,column=3)
+		Label(self,text='SD σ:',width=6,font=('Calibri',14)).grid(row=3,column=3)
 		self.input1 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.input1.insert(0,'')
-		self.input1.grid(row=2,column=4,columnspan=2,sticky="NWNESWSE")
+		self.input1.grid(row=2,column=5,columnspan=2,sticky="NWNESWSE")
 
 		#Label(self,text='Output1').grid(row=1)
 
 		self.output1 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.output1.insert(0,'')
-		self.output1.grid(row=2,column=6,columnspan=2,sticky="NWNESWSE")
-
-
+		self.output1.grid(row=2,column=7,columnspan=2,sticky="NWNESWSE")
 
 		self.input2 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.input2.insert(0,'')
-		self.input2.grid(row=3,column=4,columnspan=2,sticky="NWNESWSE")
+		self.input2.grid(row=3,column=5,columnspan=2,sticky="NWNESWSE")
 
 		#Label(self,text='Output1').grid(row=1)
 
 		self.output2 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.output2.insert(0,'')
-		self.output2.grid(row=3,column=6,columnspan=2,sticky="NWNESWSE")
+		self.output2.grid(row=3,column=7,columnspan=2,sticky="NWNESWSE")
 
 
 		self.input3 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.input3.insert(0,'')
-		self.input3.grid(row=4,column=4,columnspan=2,sticky="NWNESWSE")
+		self.input3.grid(row=4,column=5,columnspan=2,sticky="NWNESWSE")
 
 		#Label(self,text='Output1').grid(row=1)
 
 		self.output3 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.output3.insert(0,'')
-		self.output3.grid(row=4,column=6,columnspan=2,sticky="NWNESWSE")
+		self.output3.grid(row=4,column=7,columnspan=2,sticky="NWNESWSE")
 
 
 		self.input4 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.input4.insert(0,'')
-		self.input4.grid(row=5,column=4,columnspan=2,sticky="NWNESWSE")
+		self.input4.grid(row=5,column=5,columnspan=2,sticky="NWNESWSE")
 
 		#Label(self,text='Output1').grid(row=1)
 
 		self.output4 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
 		self.output4.insert(0,'')
-		self.output4.grid(row=5,column=6,columnspan=2,sticky="NWNESWSE")
+		self.output4.grid(row=5,column=7,columnspan=2,sticky="NWNESWSE")
 
 
+		self.output4 =Entry(self, font=("Calibri",16),width=10,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
+		self.output4.insert(0,'')
+		self.output4.grid(row=5,column=7,columnspan=2,sticky="NWNESWSE")
 
+		self.mean =Entry(self, font=("Calibri",16),width=5,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
+		self.mean.insert(0,'0')
+		self.mean.grid(row=2,column=4,sticky="NWNESWSE")
+
+		self.variance =Entry(self, font=("Calibri",16),width=5,borderwidth =1.5,relief=GROOVE,justify= RIGHT )
+		self.variance.insert(0,'1')
+		self.variance.grid(row=3,column=4,sticky="NWNESWSE")
+		
 		#self.arr = Button(self, font=("Goudy Stout", 11), text="",relief=GROOVE, borderwidth=1)
 		#self.arr.grid(row=1, column=4, sticky="NWNESWSE")
 #This is the First Row
@@ -207,11 +218,8 @@ class Application(Frame):
 		self.nineButton = Button(self, font=("Helvetica", 11), text="9", borderwidth=1,bg="#415748",fg='white', command=lambda: self.appendToinput("9"))
 		self.nineButton.grid(row=2, column=2, sticky="NWNESWSE")
 
-#		self.timesButton = Button(self, font=("Helvetica", 11), text="*", borderwidth=0, command=lambda: self.appendToinput("*"))
-#		self.timesButton.grid(row=1, column=3, sticky="NWNESWSE")
-
 		self.clearButton = Button(self, font=("Arial", 11), text="Clear", borderwidth=3,relief=RAISED,bg='#a7effc', command=lambda: self.clearText())
-		self.clearButton.grid(row=2, column=3,rowspan=2, sticky="NWNESWSE")
+		self.clearButton.grid(row=4, column=3,columnspan=2, sticky="NWNESWSE")
 
 #This is the Second Row
 		self.fourButton = Button(self, font=("Helvetica", 11), text="4", borderwidth=1,bg="#415748",fg='white', command=lambda: self.appendToinput("4"))
@@ -223,11 +231,8 @@ class Application(Frame):
 		self.sixButton = Button(self, font=("Helvetica", 11), text="6", borderwidth=1, bg="#415748",fg='white',command=lambda: self.appendToinput("6"))
 		self.sixButton.grid(row=3, column=2, sticky="NWNESWSE")
 
-#		self.divideButton = Button(self, font=("Helvetica", 11), text="/", borderwidth=0, command=lambda: self.appendToinput("/"))
-#		self.divideButton.grid(row=2, column=3, sticky="NWNESWSE")
-
-#		self.percentageButton = Button(self, font=("Helvetica", 11), text="%", borderwidth=0, command=lambda: self.appendToinput("%"))
-#		self.percentageButton.grid(row=2, column=4, sticky="NWNESWSE")
+		self.submitbutton = Button(self, font=("Tarjan Pro", 11), text="Submit", borderwidth=3, relief=RAISED,bg="#eb4b73",fg='white',command=lambda: self.calculateExpression())
+		self.submitbutton.grid(row=5, column=3, sticky="NWNESWSE", columnspan=2)
 
 #This is the Third Row
 		self.oneButton = Button(self, font=("Helvetica", 11), text="1", borderwidth=1,bg="#415748",fg='white',command=lambda: self.appendToinput("1"))
@@ -242,8 +247,6 @@ class Application(Frame):
 #		self.minusButton = Button(self, font=("Helvetica", 11), text="-", borderwidth=0, command=lambda: self.appendToinput("-"))
 #		self.minusButton.grid(row=3, column=3, sticky="NWNESWSE")
 
-		self.equalsButton = Button(self, font=("Tarjan Pro", 11), text="Submit", borderwidth=3, relief=RAISED,bg="#eb4b73",fg='white',command=lambda: self.calculateExpression())
-		self.equalsButton.grid(row=4, column=3, sticky="NWNESWSE", rowspan=2)
 
 #This is the Fourth Row
 		self.zeroButton = Button(self, font=("Helvetica", 11), text="0", borderwidth=1,bg="#415748",fg='white', command=lambda: self.appendToinput("0"))
