@@ -1,1 +1,1 @@
-### Normal Distribution Calculator
+# Normal Distribution Calculator
