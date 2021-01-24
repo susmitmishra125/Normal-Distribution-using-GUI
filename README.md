@@ -19,7 +19,7 @@ Suppose that the interval [a,b] is split up into n sub-intervals, with n an even
 <img src="images/simpson_composite.svg"><br />
 
 where x<sub>j</sub> =a+jh for j=0,1...n-1,n with h=(b-a)/n
-###Error analysis
+### Error analysis
 In general the error term in the simpson's 1/3rd rule is<br />
 <img src="images/error.svg" width="200" height="70"><br />
 where h is the step size.<br />
