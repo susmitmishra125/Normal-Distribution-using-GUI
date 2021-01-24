@@ -38,7 +38,7 @@ a) Download and install python3:<br />
 b) Clone the directory<br />
 run ```git clone https://github.com/susmitmishra125/Normal-Distribution-using-GUI.git```<br />			
 c) Install requirements:<br />
-Locate the directory you cloned to on terminal and run pip3 install -f requirements.txt<br />
+Locate the directory you cloned to on terminal and run ```pip3 install -f requirements.txt```<br />
 d) Run ```python main.py``` in the same directory
 
 
