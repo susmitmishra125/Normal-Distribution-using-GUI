@@ -4,40 +4,42 @@ from tkinter import messagebox
 import math
 
 ###########################################################
-#function for Integration using Simpsons 1/3rd rule. Steps=0.01
-def fun(x):
+#probability distribution function 
+def PDF(x):
     return math.exp(-x*x/2)*(1/math.sqrt(8*math.atan(1.0)))
-def simpson(z):
-    if(z<-10):
+
+#function for Integration using Simpsons 1/3rd rule. Steps=0.01
+def simpson(z,h=0.01):
+    if(z<-10):# if 
         return 0
     if(z>10):
         return 1.0
     if(z==0):
         return 0.5
     if(z<0):
-        t=-1
+        flag=-1
         z=z*-1
     else:
-        t=1
+        flag=1
     if(z>0):
-        m=z/0.01
+        m=z/h
         if(m%2==1):
             m=m-1
         x=0
         s=0#ans=s=(h/3)*(a0+2(a2+a4...)+4(a1+a3...)+az)
         for i in range(int(m)):
             if(i==0):
-                s+=fun(0)
+                s+=PDF(0)
                 continue
             if(i%2==0):
-                s+=2*fun(i*0.01)
+                s+=2*PDF(i*h)
             if(i%2==1):
-                s+=4*fun(i*0.01)
-        s+=fun(z)
-    if(t==1):
-        return  0.5 + 0.01*(s/3)
+                s+=4*PDF(i*h)
+        s+=PDF(z)
+    if(flag==1):
+        return  0.5 + h*(s/3)
     else:
-        return 0.5-0.01*(s/3)
+        return 0.5-h*(s/3)
 ##################################################################
 
 
@@ -99,7 +101,6 @@ class Application(Frame):
 
 	def calculateExpression(self):#python's calculate function 
 		self.expression = self.input.get()
-		#self.expression = self.expression.replace("%", "/ 100")
 
 		try:
 			self.result = eval(self.expression)
@@ -254,10 +255,6 @@ class Application(Frame):
 
 		self.dotButton = Button(self, font=("Helvetica", 15), text=".", borderwidth=1, bg='#516156',fg='white',command=lambda: self.appendToinput("."))
 		self.dotButton.grid(row=5, column=2, sticky="NWNESWSE")
-
-#		self.plusButton = Button(self, font=("Helvetica", 11), text="+", borderwidth=0, command=lambda: self.appendToinput("+"))
-#		self.plusButton.grid(row=4, column=3, sticky="NWNESWSE")
-
 
 app = Application(Solver).grid()		
 Solver.mainloop()
