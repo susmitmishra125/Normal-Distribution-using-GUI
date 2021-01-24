@@ -24,7 +24,7 @@ In general the error term in the simpson's 1/3rd rule is<br />
 <img src="images/error.svg" width="200" height="70"><br />
 where h is the step size.<br />
 For the Gaussian Function the error term comes out to be<br />	
-<img src ="images/4thderivative.png"><br />
+<img src ="images/4derivative.png"><br />
 it has a golbal maxima at 0. During the computation of integration our interval always contains 0 because
 **&Phi;(x)= 0.5(1+erf(x))** and erf(x) contains 0 in its interval.<br />
 Substituting all the values h=0.01, f<sup>(4)</sup>(x=0) we get the error ≈ 2e-10
