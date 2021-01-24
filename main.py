@@ -1,51 +1,53 @@
+import math
 from tkinter import *
 import tkinter
 from tkinter import messagebox
-import math
+
 
 ###########################################################
 #probability distribution function 
 def PDF(x):
-    return math.exp(-x*x/2)*(1/math.sqrt(8*math.atan(1.0)))
+		return math.exp(-x*x/2)*(1/math.sqrt(8*math.atan(1.0)))
 
 #function for Integration using Simpsons 1/3rd rule. Steps=0.01
 def simpson(z,h=0.01):
-    if(z<-10):# if 
-        return 0
-    if(z>10):
-        return 1.0
-    if(z==0):
-        return 0.5
-    if(z<0):
-        flag=-1
-        z=z*-1
-    else:
-        flag=1
-    if(z>0):
-        m=z/h
-        if(m%2==1):
-            m=m-1
-        x=0
-        s=0#ans=s=(h/3)*(a0+2(a2+a4...)+4(a1+a3...)+az)
-        for i in range(int(m)):
-            if(i==0):
-                s+=PDF(0)
-                continue
-            if(i%2==0):
-                s+=2*PDF(i*h)
-            if(i%2==1):
-                s+=4*PDF(i*h)
-        s+=PDF(z)
-    if(flag==1):
-        return  0.5 + h*(s/3)
-    else:
-        return 0.5-h*(s/3)
+		# if z is below -10 because of computational constraints it is efficient to ouput 0
+		if(z<-10):
+				return 0
+		# it is unecessary to integrate for above 10
+		if(z>10):
+				return 1.0
+		if(z<0):
+				flag=-1
+				z=z*-1
+		else:
+			flag=1
+		sum=0
+		if(z>0):
+				m=z/h
+				if(m%2==1):
+						m=m-1
+				x=0
+				#ans=(h/3)*(a0+2(a2+a4...)+4(a1+a3...)+az)
+				for i in range(int(m)):
+						if(i==0):
+								sum+=PDF(0)
+								continue
+						if(i%2==0):
+								sum+=2*PDF(i*h)
+						if(i%2==1):
+								sum+=4*PDF(i*h)
+				sum+=PDF(z)
+		if(flag==1):
+				return  0.5 + h*(sum/3)
+		else:
+				return 0.5-h*(sum/3)
 ##################################################################
 
 
 Solver = Tk()
-Solver.title("Normal distribution")
-Solver.geometry('700x170')
+Solver.title("CDF for Normal distribution")
+Solver.geometry('620x168')
 Solver.configure(background='#e7fca7')
 
 class Application(Frame):
@@ -105,7 +107,7 @@ class Application(Frame):
 		try:
 			self.result = eval(self.expression)
 			self.result=round(self.result,2)
-			t=(float(self.result)-float(self.mean.get()))/float(self.variance.get())
+			z_transformed=(float(self.result)-float(self.mean.get()))/float(self.variance.get())
 
 			self.replaceTextinput4(self.input3.get())
 			self.replaceTextinput3(self.input2.get())
@@ -117,16 +119,15 @@ class Application(Frame):
 			self.replaceTextoutput2(self.output1.get())
 
 			
-			self.result = round(simpson(t),4)
+			self.result = round(simpson(z_transformed),4)
 			self.replaceTextoutput1(self.result)
 			self.replaceText('')
-			if(float(self.input1.get())<-3 or float(self.input1.get())>3):
-				messagebox.showinfo(title="Overflow",message='Enter Z values between -3 to 3 rounded upto 2 decimal places')
-			
+			if(abs(float(self.input1.get())-float(self.mean.get()))>3):
+				messagebox.showinfo(title="Overflow",message='Enter Z values between {} to {} rounded upto 2 decimal places'.format(float(self.mean.get())-3,float(self.mean.get())+3))
 		except:
 			messagebox.showinfo("ERROR", "Invalid input", icon="warning", parent=Solver)
 
-	def clearText(self):#clears imput on pressing C on Solver
+	def clearText(self):#clears input on pressing Clear on Solver
 		self.replaceText("")
 		self.replaceTextinput1("")
 		self.replaceTextoutput1("")
@@ -143,8 +144,8 @@ class Application(Frame):
 		self.input.insert(0, "")
 		self.input.grid(row=1, column=1, columnspan=2,sticky="NWNESWSE")
 		
-		Label(self,text='Input(Z):',width=6,font=('Adobe Heiti Std',14),bg='#f7dce3').grid(row=1,column=0)
-		Label(self,text='-3.00 ≤ z ≤ 3.00',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=5,columnspan=2)
+		Label(self,text='Input(z):',width=6,font=('Adobe Heiti Std',14),bg='#f7dce3').grid(row=1,column=0)
+		Label(self,text='μ-3 ≤ z ≤ μ+3',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=5,columnspan=2)
 		Label(self,text='Φ(z)',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=7,columnspan=2)
 		
 		Label(self,text='Mean μ:',width=6,font=('Calibri',14)).grid(row=2,column=3)

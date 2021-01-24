@@ -1,12 +1,46 @@
 # Normal(Gaussian) Distribution
-This project is an effort to create application that can calculate the probability of a Gaussian or normal distribution.
-
-In probability theory, a normal (or **Gaussian** or **Gauss** or **Laplace–Gauss**) distribution is a type of continuous probability distribution for a real-valued random variable. The general form of its probability density function is ![](images/expression.png){:height="40%" width="40%"}
-
-The parameter &mu; is the mean or expectation of the distribution, while the parameter σ is its standard deviation. The variance of the distribution is &sigma;<sup>2</sup>. A random variable with a Gaussian distribution is said to be **normally distributed**.
-
+In probability theory, a normal (or **Gaussian** or **Gauss** or **Laplace–Gauss**) distribution is a type of continuous probability distribution for a real-valued random variable. The general form of its probability density function is 
+<img src="images/expression.png" width="200" height="70"> <!--.element height ="40%" width ="40%" -->			
+The parameter &mu; is the mean or expectation of the distribution, while the parameter σ is its standard deviation. The variance of the distribution is &sigma;<sup>2</sup>. A random variable with a Gaussian distribution is said to be **normally distributed**.			
 ## Standard Normal Distribution
-The simplest case of a normal distribution is known as the standard normal distribution. This is a special case when &mu; = 0 and &sigma; = 1, and it is described by this probability density function .
+The simplest case of a normal distribution is known as the standard normal distribution. This is a special case when &mu; = 0 and &sigma; = 1, and it is described by this probability density function.			
+<img src="images/expression_standard.png" width ="190" height ="65">			
+## Cumulative Distribution Function
+The cumulative distribution function (CDF) of the standard normal distribution, usually denoted with the capital Greek letter &Phi;, is the integral 			
+<img src="images/Phi.svg" width="200" height="70">			
+We use **Simpsons** 1/3rd rule to do the integration.
+We can use the definition of error function to write 		
+<img src="images/erf.svg" width="200" height="70">  where <img src="images/erf1.svg" width="200" height="70">
 
-![](images/expression_standard.png){:height="30%" width="30%"}
+## Simpson's 1/3 rule
+Simpson's rule is one of the numerical method to compute the integration of a function over a finite interval. The most basic of these rules states.			
+<img src ="images/simpson.svg" width ="300" height ="100"> 					
+Suppose that the interval [a,b] is split up into n sub-intervals, with n an even number. Then, the composite Simpson's rule is given by
+
+<img src="images/simpson_composite.svg">
+
+where x<sub>j</sub> =a+jh for j=0,1...n-1,n with h=(b-a)/n
+###Error analysis
+In general the error term in the simpson's 1/3rd rule is   
+<img src="images/error.svg" width="200" height="70">	
+where h is the step size.			
+For the Gaussian Function the error terms comes out to be 	
+<img src ="images/4thderivative.png">	
+it has a golbal maxima at 0. During the computation of integration our interval always contains 0 because
+**&Phi;(x)= 0.5(1+erf(x))** and erf(x) contains 0 in its interval.
+Substituting all the values h=0.01, f<sup>(4)</sup>(x=0) we get the error ≈ 2e-10
+## Simulation and implementation
+For the numerical computation purposes python's math library was used.
+And for the interface python's **Tkinter** which is a de-facto standard GUI package.			
+There are two ways to run the script 			
+Method 1:  Download the main.exe and run executable file 				
+Method 2(for users with python):			
+a) Download and install python3: 			
+b) Clone the directory			
+run ```git clone https://github.com/susmitmishra125/Normal-Distribution-using-GUI.git``` 			
+c) Install requirements:				
+Locate the directory you cloned to on terminal and run pip3 install -f requirements.txt   		
+d) Run ```python main.py``` in the same directory 		
+
+
 
