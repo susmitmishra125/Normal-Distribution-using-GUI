@@ -1,5 +1,5 @@
-import math
-from tkinter import *
+import numpy as np
+from tkinter import Tk, Frame, Entry, GROOVE, RIGHT, Label, Button, RAISED, END
 import tkinter
 from tkinter import messagebox
 
@@ -7,7 +7,7 @@ from tkinter import messagebox
 ###########################################################
 #probability distribution function 
 def PDF(x):
-		return math.exp(-x*x/2)*(1/math.sqrt(8*math.atan(1.0)))
+		return np.exp(-x*x/2)/np.sqrt(8*np.atan(1.0))
 
 #function for Integration using Simpsons 1/3rd rule. Steps=0.01
 def simpson(z,h=0.01):
@@ -122,8 +122,8 @@ class Application(Frame):
 			self.result = round(simpson(z_transformed),4)
 			self.replaceTextoutput1(self.result)
 			self.replaceText('')
-			if(abs(float(self.input1.get())-float(self.mean.get()))>3):
-				messagebox.showinfo(title="Overflow",message='Enter Z values between {} to {} rounded upto 2 decimal places'.format(float(self.mean.get())-3,float(self.mean.get())+3))
+			# if(abs(float(self.input1.get())-float(self.mean.get()))>3):
+				# messagebox.showinfo(title="Overflow",message='Enter Z values between {} to {} rounded upto 2 decimal places'.format(float(self.mean.get())-3,float(self.mean.get())+3))
 		except:
 			messagebox.showinfo("ERROR", "Invalid input", icon="warning", parent=Solver)
 
@@ -144,8 +144,9 @@ class Application(Frame):
 		self.input.insert(0, "")
 		self.input.grid(row=1, column=1, columnspan=2,sticky="NWNESWSE")
 		
-		Label(self,text='Input(z):',width=6,font=('Adobe Heiti Std',14),bg='#f7dce3').grid(row=1,column=0)
-		Label(self,text='μ-3 ≤ z ≤ μ+3',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=5,columnspan=2)
+		Label(self,text='z:',width=6,font=('Adobe Heiti Std',14),bg='#f7dce3').grid(row=1,column=0)
+		# Label(self,text='μ-3 ≤ z ≤ μ+3',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=5,columnspan=2)
+		Label(self,text='z',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=5,columnspan=2)
 		Label(self,text='Φ(z)',width=12,font=('Adobe Heiti Std',14),bg='#77e0f2').grid(row=1,column=7,columnspan=2)
 		
 		Label(self,text='Mean μ:',width=6,font=('Calibri',14)).grid(row=2,column=3)
